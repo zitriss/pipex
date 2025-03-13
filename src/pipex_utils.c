@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 14:09:42 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/11 17:58:32 by tlize            ###   ########.fr       */
+/*   Created: 2025/03/13 15:16:41 by tlize             #+#    #+#             */
+/*   Updated: 2025/03/13 16:05:21 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    error_msg(char *s)
+char    **get_path(char **envp)
 {
-    ft_putstr_fd(s, STDERR_FILENO);
-    exit(EXIT_FAILURE);
+    int     i;
+    char    **path;
+    i = 0;
+    while(envp[i++])
+    {
+        if(ft_strncmp(envp,"PATH=",5) == 0)
+            path = ft_split(envp[i] + 5, ':');
+    }
+    return (path);
 }

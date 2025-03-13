@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/13 16:13:29 by tlize            ###   ########.fr       */
+/*   Created: 2025/03/13 15:53:43 by tlize             #+#    #+#             */
+/*   Updated: 2025/03/13 16:20:46 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void exec_pipex(char **path, char**argv)
+void print_error(char *s)
 {
-
+    ft_putstr_fd(s, STDERR_FILENO);
+    exit(EXIT_FAILURE); 
 }
 
-void    main(int argc, char **argv, char **envp)
+void    check_argc(int argc)
 {
-    char    **path;
-
-    check_argc(argc);
-    path = get_path(envp);
-    exec_pipex(path, argv);
+    if(argc != 5)
+        print_error("Mauvais nombre d'arguments.");
 }
