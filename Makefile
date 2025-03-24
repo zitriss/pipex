@@ -6,39 +6,39 @@
 #    By: tlize <tlize@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:40:07 by tlize             #+#    #+#              #
-#    Updated: 2025/03/24 15:56:59 by tlize            ###   ########.fr        #
+#    Updated: 2025/03/24 16:03:51 by tlize            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-#
-NAME	= pipex
 
-SRCS	=src/pipex.c src/pipex_utils.c src/errors.c
-OBJS	= ${SRCS:.c=.o}
-MAIN	= src/pipex.c
+NAME = pipex
 
-HEADER = -Iincludes
+CC = gcc
+CFLAGS = -Werror -Wall -Wextra
+RM = rm -rf
 
-CC	= cc
-CFLAGS	= -Wall -Werror -Wextra
+SRCS = main.c pipex_utils.c errors.c
+OBJS = $(SRCS:.c=.o)
+LIBFT = libft/libft.a
 
-.c.o:	%.o : %.c
-			@cc ${CFLAGS} ${HEADER} -c %< -o $(v:.c=.o)
+all: $(NAME)
 
-all:	${PROG}
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
-${PROG}:	${OBJS}
-			@make re -C ./libft
-			@$(CC) ${OBJS} -Llibft -lft -o ${PROG}
+$(LIBFT):
+	make -C libft
 
-clean :
-			@make clean -C ./libft
-			@rm -f ${OBJS}
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-fclean :	clean
-			@make fclean -C ./libft
-			@rm -f ${NAME}
-			@rm -f ${PROG}
+clean:
+	$(RM) $(OBJS)
+	make clean -C libft
 
-re :		flclean all
+fclean: clean
+	$(RM) $(NAME)
+	make fclean -C libft
+
+re: fclean all
 
 .PHONY: all clean fclean re
