@@ -6,16 +6,11 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/13 17:24:46 by tlize            ###   ########.fr       */
+/*   Updated: 2025/03/24 13:44:19 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static void exec_pipe(char *argv, char **envp)
-{
-
-}
 
 static void child(char **argv, char **envp, int *fd)
 {
@@ -23,16 +18,24 @@ static void child(char **argv, char **envp, int *fd)
 
     filein = open(argv[1], O_RDONLY, 0777);
     if (filein == -1)
-        print_error("Erreur lors de la lecture du fichier d'entree.");
+        print_error("Erreur lors de l'ouverture du fichier d'entree.");
     dup2(fd[1], STDOUT_FILENO);
     dup2(filein, STDIN_FILENO);
     close(fd[0]);
     exec_pipe(argv[2], envp);
 }
 
-static void parent()
+static void parent(char **argv, char **envp, int *fd)
 {
+    int fileout;
 
+    fileout = open(argv[4], O_RDONLY | O_WRONLY | O_RDWR, 0777);
+    if (fileout == -1)
+        print_error("Erreur lors de l'ouverture du fichier de sortie.");
+    dup2(fd[0], STDIN_FILENO);
+    dup2(fileout, STDOUT_FILENO);
+    close(fd[1]);
+    exec_pipe(argv[3], envp);
 }
 
 void    main(int argc, char **argv, char **envp)
