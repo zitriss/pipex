@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:49:24 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/13 17:14:51 by tlize            ###   ########.fr       */
+/*   Updated: 2025/03/25 12:52:34 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include "libft.h"
+
+void	main(int argc, char **argv, char **envp);
+void	exec_pipe(char *argv, char **envp);
+void	print_error(char *s);
+void	check_args(int argc);
 
 #endif

@@ -6,39 +6,43 @@
 #    By: tlize <tlize@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 14:40:07 by tlize             #+#    #+#              #
-#    Updated: 2025/03/24 16:03:51 by tlize            ###   ########.fr        #
+#    Updated: 2025/03/25 12:53:57 by tlize            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-CC = gcc
-CFLAGS = -Werror -Wall -Wextra
-RM = rm -rf
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c pipex_utils.c errors.c
+SRCDIR = src
+INCDIR = includes
+LIBFTDIR = libft
+
+LIBFT = $(LIBFTDIR)/libft.a
+LIBFT_INC = -I$(LIBFTDIR)
+LIBFT_LNK = -L$(LIBFTDIR) -lft
+
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/errors.c $(SRCDIR)/pipex_utils.c
 OBJS = $(SRCS:.c=.o)
-LIBFT = libft/libft.a
 
-all: $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	make -C libft
+	@$(MAKE) -C $(LIBFTDIR)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFT_INC) $(OBJS) $(LIBFT_LNK) -o $(NAME)
 
 clean:
-	$(RM) $(OBJS)
-	make clean -C libft
+	$(MAKE) -C $(LIBFTDIR) clean
+	rm -f $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
-	make fclean -C libft
+	$(MAKE) -C $(LIBFTDIR) fclean
+	rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
