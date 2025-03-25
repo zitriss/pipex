@@ -6,11 +6,11 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:16:41 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/24 15:11:58 by tlize            ###   ########.fr       */
+/*   Updated: 2025/03/25 13:45:52 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static char	**split_paths(char **envp)
 {
@@ -20,7 +20,7 @@ static char	**split_paths(char **envp)
 	i = 0;
 	while (envp[i++])
 	{
-		if (ft_strncmp(envp, "PATH=", 5) == 0)
+		if (ft_strncmp(*envp, "PATH=", 5) == 0)
 			paths = ft_split(envp[i] + 5, ':');
 	}
 	return (paths);
@@ -32,7 +32,7 @@ static char	*get_path(char *cmd, char **envp)
 	char	*path;
 	int		i;
 
-	paths = get_split_paths(envp);
+	paths = split_paths(envp);
 	i = 0;
 	while (paths[i++])
 	{

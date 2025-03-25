@@ -6,11 +6,11 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/24 15:22:14 by tlize            ###   ########.fr       */
+/*   Updated: 2025/03/25 13:41:30 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static void	child(char **argv, char **envp, int *fd)
 {
@@ -38,7 +38,7 @@ static void	parent(char **argv, char **envp, int *fd)
 	exec_pipe(argv[3], envp);
 }
 
-void	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];
 	pid_t	id;
@@ -53,4 +53,5 @@ void	main(int argc, char **argv, char **envp)
 		child(argv, envp, fd);
 	waitpid(id, NULL, 0);
 	parent(argv, envp, fd);
+	return (0);
 }
