@@ -6,11 +6,12 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/25 13:41:30 by tlize            ###   ########.fr       */
+/*   Updated: 2025/03/25 14:46:34 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+#include <stdio.h>
 
 static void	child(char **argv, char **envp, int *fd)
 {
@@ -29,11 +30,14 @@ static void	parent(char **argv, char **envp, int *fd)
 {
 	int	fileout;
 
-	fileout = open(argv[4], O_RDONLY | O_WRONLY | O_RDWR, 0777);
+	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fileout == -1)
 		print_error("Erreur lors de l'ouverture du fichier de sortie.");
 	dup2(fd[0], STDIN_FILENO);
+	ft_putstr_fd("test1\n", 1);
+	printf("%d\n", fileout);
 	dup2(fileout, STDOUT_FILENO);
+	ft_putstr_fd("test2\n", 1);
 	close(fd[1]);
 	exec_pipe(argv[3], envp);
 }
