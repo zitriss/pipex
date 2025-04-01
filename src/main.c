@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 16:12:15 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 16:37:12 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static void	child(char **argv, char **envp, int *fd)
 
 	filein = open(argv[1], O_RDONLY, 0777);
 	if (filein == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		print_error("Erreur lors de l'ouverture du fichier d'entree.");
+	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(filein, STDIN_FILENO);
 	close(fd[0]);
@@ -34,7 +38,11 @@ static void	parent(char **argv, char **envp, int *fd)
 
 	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fileout == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		print_error("Erreur lors de l'ouverture du fichier de sortie.");
+	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fileout, STDOUT_FILENO);
 	close(fd[0]);
@@ -51,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 	check_argc(argc);
 	check_comm(argv[2]);
 	check_comm(argv[3]);
+	check_env(envp);
 	if (pipe(fd) == -1)
 		print_error("Erreur lors de la creation de la Pipe");
 	id = fork();
