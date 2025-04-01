@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 15:25:19 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 16:12:15 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	id;
 
 	check_argc(argc);
+	check_comm(argv[2]);
+	check_comm(argv[3]);
 	if (pipe(fd) == -1)
 		print_error("Erreur lors de la creation de la Pipe");
 	id = fork();

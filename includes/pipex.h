@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:49:24 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/25 13:43:23 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 16:13:18 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		main(int argc, char **argv, char **envp);
 void	exec_pipe(char *argv, char **envp);
 void	print_error(char *s);
 void	check_argc(int argc);
+void	check_comm(char *argv);
 
 #endif
