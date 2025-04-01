@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:16:41 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 14:43:28 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 15:02:59 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ char	*get_path(char *cmd, char **envp)
 	char	**paths;
 	char	*path;
 	int		i;
-	char	*part_path;
+	char	*path_temp;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
+		path_temp = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path_temp, cmd);
+		free(path_temp);
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
