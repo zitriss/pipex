@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 16:37:12 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 18:46:54 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,25 @@ static void	parent(char **argv, char **envp, int *fd)
 int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];
-	pid_t	id;
+	pid_t	unoid;
+	pid_t	dosid;
 
-	check_argc(argc);
-	check_comm(argv[2]);
-	check_comm(argv[3]);
-	check_env(envp);
+	check_all(argc, argv, envp);
 	if (pipe(fd) == -1)
 		print_error("Erreur lors de la creation de la Pipe");
-	id = fork();
-	if (id == -1)
+	unoid = fork();
+	if (unoid == -1)
 		print_error("Erreur lors de la creation du Fork");
-	if (id == 0)
+	if (unoid == 0)
 		child(argv, envp, fd);
-	waitpid(id, NULL, 0);
-	parent(argv, envp, fd);
+	dosid = fork();
+	if (dosid == -1)
+		print_error("Erreur lors de la creation du Fork");
+	if (dosid == 0)
+		parent(argv, envp, fd);
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(unoid, NULL, 0);
+	waitpid(dosid, NULL, 0);
 	return (0);
 }

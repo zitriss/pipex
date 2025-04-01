@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:53:43 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 16:38:04 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 18:33:00 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	print_error(char *s)
 	exit(EXIT_FAILURE);
 }
 
-void	check_argc(int argc)
+static void	check_argc(int argc)
 {
 	if (argc != 5)
 		print_error("Mauvais nombre d'arguments.");
 }
 
-void	check_env(char **envp)
+static void	check_envp(char **envp)
 {
 	if (!envp[0])
 		print_error("Pas d'envp");
 }
 
-void	check_comm(char *argv)
+static void	check_comm(char *argv)
 {
 	size_t	len;
 	size_t	i;
@@ -49,4 +49,12 @@ void	check_comm(char *argv)
 	}
 	if (vide)
 		print_error("Commande vide");
+}
+
+void	check_all(int argc, char **argv, char **envp)
+{
+	check_argc(argc);
+	check_envp(envp);
+	check_comm(argv[2]);
+	check_comm(argv[3]);
 }
