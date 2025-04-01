@@ -6,43 +6,72 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:16:41 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/25 13:45:52 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 14:43:28 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static char	**split_paths(char **envp)
-{
-	int		i;
-	char	**paths;
+// static char	**split_paths(char **envp)
+// {
+// 	int		i;
+// 	char	**paths;
 
-	i = 0;
-	while (envp[i++])
-	{
-		if (ft_strncmp(*envp, "PATH=", 5) == 0)
-			paths = ft_split(envp[i] + 5, ':');
-	}
-	return (paths);
-}
+// 	i = 0;
+// 	while (envp[i++])
+// 	{
+// 		if (ft_strncmp(*envp, "PATH=", 5) == 0)
+// 			paths = ft_split(envp[i] + 5, ':');
+// 	}
+// 	return (paths);
+// }
 
-static char	*get_path(char *cmd, char **envp)
+// static char	*get_path(char *cmd, char **envp)
+// {
+// 	char	**paths;
+// 	char	*path;
+// 	int		i;
+
+// 	paths = split_paths(envp);
+// 	i = 0;
+// 	while (paths[i++])
+// 	{
+// 		path = ft_strjoin(paths[i], cmd);
+// 		if (access(path, F_OK) == 0)
+// 			return (path);
+// 		free(path);
+// 	}
+// 	i = 0;
+// 	while (paths[i++])
+// 		free(paths[i]);
+// 	free(paths);
+// 	return (0);
+// }
+
+char	*get_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
 	int		i;
+	char	*part_path;
 
-	paths = split_paths(envp);
 	i = 0;
-	while (paths[i++])
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
 	{
-		path = ft_strjoin(paths[i], cmd);
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
+		i++;
 	}
-	i = 0;
-	while (paths[i++])
+	i = -1;
+	while (paths[++i])
 		free(paths[i]);
 	free(paths);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/03/25 15:25:30 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/01 14:43:31 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ static void	parent(char **argv, char **envp, int *fd)
 	if (fileout == -1)
 		print_error("Erreur lors de l'ouverture du fichier de sortie.");
 	dup2(fd[0], STDIN_FILENO);
-	ft_putstr_fd("test1\n", 1);
-	printf("%d\n", fileout);
 	dup2(fileout, STDOUT_FILENO);
-	ft_putstr_fd("\ntest2\n", 1);
 	close(fd[1]);
 	exec_pipe(argv[3], envp);
 }
