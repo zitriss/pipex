@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:44:58 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 18:46:54 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/03 18:38:31 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	child(char **argv, char **envp, int *fd)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		print_error("Erreur lors de l'ouverture du fichier d'entree.");
+		print_error("Erreur lors de l'ouverture du fichier d'entree.\n");
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(filein, STDIN_FILENO);
@@ -32,7 +32,7 @@ static void	child(char **argv, char **envp, int *fd)
 	exec_pipe(argv[2], envp);
 }
 
-static void	parent(char **argv, char **envp, int *fd)
+static void	fauxparent(char **argv, char **envp, int *fd)
 {
 	int	fileout;
 
@@ -41,7 +41,7 @@ static void	parent(char **argv, char **envp, int *fd)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		print_error("Erreur lors de l'ouverture du fichier de sortie.");
+		print_error("Erreur lors de l'ouverture du fichier de sortie.\n");
 	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fileout, STDOUT_FILENO);
@@ -57,19 +57,19 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	unoid;
 	pid_t	dosid;
 
-	check_all(argc, argv, envp);
+	check_all(argc, argv);
 	if (pipe(fd) == -1)
-		print_error("Erreur lors de la creation de la Pipe");
+		print_error("Erreur lors de la creation de la Pipe\n");
 	unoid = fork();
 	if (unoid == -1)
-		print_error("Erreur lors de la creation du Fork");
+		print_error("Erreur lors de la creation du Fork\n");
 	if (unoid == 0)
 		child(argv, envp, fd);
 	dosid = fork();
 	if (dosid == -1)
-		print_error("Erreur lors de la creation du Fork");
+		print_error("Erreur lors de la creation du Fork\n");
 	if (dosid == 0)
-		parent(argv, envp, fd);
+		fauxparent(argv, envp, fd);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(unoid, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:53:43 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/01 18:33:00 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/03 18:38:06 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,7 @@ void	print_error(char *s)
 static void	check_argc(int argc)
 {
 	if (argc != 5)
-		print_error("Mauvais nombre d'arguments.");
-}
-
-static void	check_envp(char **envp)
-{
-	if (!envp[0])
-		print_error("Pas d'envp");
+		print_error("Mauvais nombre d'arguments.\n");
 }
 
 static void	check_comm(char *argv)
@@ -40,7 +34,7 @@ static void	check_comm(char *argv)
 	vide = 1;
 	len = ft_strlen(argv);
 	if (len == 0)
-		print_error("Commande vide");
+		print_error("Commande vide\n");
 	while (i < len)
 	{
 		if (argv[i] != ' ')
@@ -48,13 +42,12 @@ static void	check_comm(char *argv)
 		i ++;
 	}
 	if (vide)
-		print_error("Commande vide");
+		print_error("Commande vide\n");
 }
 
-void	check_all(int argc, char **argv, char **envp)
+void	check_all(int argc, char **argv)
 {
 	check_argc(argc);
-	check_envp(envp);
 	check_comm(argv[2]);
 	check_comm(argv[3]);
 }
