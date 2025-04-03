@@ -6,20 +6,21 @@
 /*   By: tlize <tlize@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:16:41 by tlize             #+#    #+#             */
-/*   Updated: 2025/04/03 18:37:46 by tlize            ###   ########.fr       */
+/*   Updated: 2025/04/03 18:42:55 by tlize            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static int envpoupas(char *cmd, char **envp)
+static int	envpoupas(char *cmd, char **envp)
 {
 	if (access(cmd, F_OK) == 0)
-			return (0);
+		return (0);
 	else if (!envp[0])
 		print_error("Pas d'envp\n");
 	return (1);
 }
+
 static char	*get_path(char *cmd, char **envp, int i)
 {
 	char	**paths;
@@ -27,7 +28,7 @@ static char	*get_path(char *cmd, char **envp, int i)
 	char	*path_temp;
 
 	if (!envpoupas(cmd, envp))
-			return (cmd);
+		return (cmd);
 	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
